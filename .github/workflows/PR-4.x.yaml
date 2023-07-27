@@ -36,11 +36,7 @@ jobs:
       - name: Define proper HOME path
         timeout-minutes: 60
         run: |
-          cd /home/ci
-          ls
-          cd /home/opencv-cn
-          ls
-          cd /home/opencv-cn/git_cache
+          cd /home/ci/git_cache
           ls
           echo "HOME=/home/ci" >> $GITHUB_ENV
       - name: Setup environment
