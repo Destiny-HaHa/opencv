@@ -16,7 +16,6 @@ env:
   PR_AUTHOR_FORK: 'Destiny-HaHa/opencv'
   SOURCE_BRANCH_NAME: '4.x'
   TARGET_BRANCH_NAME: '4.x'
-  HOME: '/home/ci'
   GIT_CACHE_DOCKER: '/home/ci/git_cache'
   OPENCV_DOCKER_WORKDIR: "home/ci/opencv"
   CCACHE_DIR: '/home/ci/.ccache'
