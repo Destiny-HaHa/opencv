@@ -17,7 +17,7 @@ env:
   SOURCE_BRANCH_NAME: '4.x'
   TARGET_BRANCH_NAME: '4.x'
   GIT_CACHE_DOCKER: '/home/opencv-cn/git_cache'
-  OPENCV_DOCKER_WORKDIR: "/home/"
+  OPENCV_DOCKER_WORKDIR: "/home/opencv"
   CCACHE_DIR: '/home/opencv-cn/.ccache'
 
 jobs:
