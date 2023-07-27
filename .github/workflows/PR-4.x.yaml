@@ -16,6 +16,7 @@ env:
   PR_AUTHOR_FORK: ${{ github.event.pull_request.head.repo.full_name }}
   SOURCE_BRANCH_NAME: ${{ github.head_ref }}
   TARGET_BRANCH_NAME: ${{ github.base_ref }}
+  HOME: '/home/ci'
   GIT_CACHE_DOCKER: '/home/ci/git_cache'
   OPENCV_DOCKER_WORKDIR: '/home/ci/opencv'
   CCACHE_DIR: '/home/ci/.ccache'
@@ -33,14 +34,6 @@ jobs:
         - /home/opencv-cn/ci_cache/opencv:/home/ci/.ccache
         - /home/opencv-cn/gradle_cache:/home/ci/.gradle
     steps:
-      - name: Define proper HOME path
-        timeout-minutes: 60
-        run: |
-          cd /home/ci/git_cache
-          ls
-      - name: Setup environment
-        timeout-minutes: 60
-        run: echo "TARGET_BRANCH_NAME=4.x" >> $GITHUB_ENV
       - name: PR info
         timeout-minutes: 60
         run: |
