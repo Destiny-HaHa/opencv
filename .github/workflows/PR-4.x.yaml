@@ -16,9 +16,9 @@ env:
   PR_AUTHOR_FORK: 'Destiny-HaHa/opencv'
   SOURCE_BRANCH_NAME: '4.x'
   TARGET_BRANCH_NAME: '4.x'
-  GIT_CACHE_DOCKER: '/home/opencv-cn/git_cache'
-  OPENCV_DOCKER_WORKDIR: "/home/opencv"
-  CCACHE_DIR: '/home/opencv-cn/.ccache'
+  GIT_CACHE_DOCKER: '/home/ci/git_cache'
+  OPENCV_DOCKER_WORKDIR: "/home/ci/opencv"
+  CCACHE_DIR: '/home/ci/.ccache'
 
 jobs:
   BuildAndTest:
@@ -32,6 +32,7 @@ jobs:
       - name: PR info
         timeout-minutes: 60
         run: |
+          pwd
           printenv
           echo "PR Author: ${{ env.PR_AUTHOR }}"
           echo "PR Author fork: ${{ env.PR_AUTHOR_FORK }}"
@@ -40,8 +41,7 @@ jobs:
       - name: Fetch opencv
         timeout-minutes: 60
         run: |
-          cd /home
-          sudo chmod o+w opencv
+          pwd
           git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
       - name: Build OpenCV for Android SDK
         timeout-minutes: 120
