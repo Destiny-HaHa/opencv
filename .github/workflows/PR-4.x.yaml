@@ -36,6 +36,8 @@ jobs:
       - name: Define proper HOME path
         timeout-minutes: 60
         run: |
+          cd /home/ci
+          ls
           cd /home/opencv-cn
           ls
           cd /home/opencv-cn/git_cache
