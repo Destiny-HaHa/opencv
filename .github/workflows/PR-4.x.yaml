@@ -46,13 +46,7 @@ jobs:
         run: (test -d "${{ env.OPENCV_DOCKER_WORKDIR }}" && find "${{ env.OPENCV_DOCKER_WORKDIR }}" -mindepth 1 -delete) || /bin/true
       - name: Fetch opencv
         timeout-minutes: 60
-        run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} --reference ${{ env.GIT_CACHE_DOCKER }}/opencv.git https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
-      - name: Merge opencv with ${{ env.SOURCE_BRANCH_NAME }} branch
-        timeout-minutes: 60
-        if: ${{ startsWith(github.event.repository.name, 'opencv') && github.event_name == 'pull_request' }}
-        run: |
-          cd ${{ env.OPENCV_DOCKER_WORKDIR }}
-          git pull -v "https://github.com/${{ env.PR_AUTHOR_FORK }}" "${{ env.SOURCE_BRANCH_NAME }}"
+        run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
       - name: Build OpenCV for Android SDK
         timeout-minutes: 120
         run: |
