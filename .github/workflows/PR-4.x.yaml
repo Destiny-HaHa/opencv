@@ -12,10 +12,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-  PR_AUTHOR_FORK: ${{ github.event.pull_request.head.repo.full_name }}
-  SOURCE_BRANCH_NAME: ${{ github.head_ref }}
-  TARGET_BRANCH_NAME: ${{ github.base_ref }}
+  PR_AUTHOR: 'Destiny-HaHa'
+  PR_AUTHOR_FORK: 'Destiny-HaHa/opencv'
+  SOURCE_BRANCH_NAME: '4.x'
+  TARGET_BRANCH_NAME: '4.x'
   HOME: '/home/ci'
   GIT_CACHE_DOCKER: '/home/ci/git_cache'
   OPENCV_DOCKER_WORKDIR: '/home/ci/opencv'
