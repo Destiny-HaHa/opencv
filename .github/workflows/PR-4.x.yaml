@@ -39,7 +39,11 @@ jobs:
           echo "Target branch name: ${{ env.TARGET_BRANCH_NAME }}"
       - name: Fetch opencv
         timeout-minutes: 60
-        run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
+        run: |
+          cd /home
+          sudo chmod o+w opencv
+          git init
+          git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
       - name: Build OpenCV for Android SDK
         timeout-minutes: 120
         run: |
