@@ -22,7 +22,7 @@ env:
 
 jobs:
   BuildAndTest:
-    runs-on: opencv-cn-lin-x86-64-android
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
@@ -33,9 +33,6 @@ jobs:
         - /home/opencv-cn/ci_cache/opencv:/home/ci/.ccache
         - /home/opencv-cn/gradle_cache:/home/ci/.gradle
     steps:
-      - name: Brief system information
-        timeout-minutes: 60
-        run: bash ${{ env.GIT_CACHE_DOCKER }}/print_system_information.sh
       - name: Define proper HOME path
         timeout-minutes: 60
         run: echo "HOME=/home/ci" >> $GITHUB_ENV
