@@ -35,7 +35,12 @@ jobs:
     steps:
       - name: Define proper HOME path
         timeout-minutes: 60
-        run: echo "HOME=/home/ci" >> $GITHUB_ENV
+        run: |
+          cd /home/opencv-cn
+          ls
+          cd /home/opencv-cn/git_cache
+          ls
+          echo "HOME=/home/ci" >> $GITHUB_ENV
       - name: Setup environment
         timeout-minutes: 60
         run: echo "TARGET_BRANCH_NAME=4.x" >> $GITHUB_ENV
