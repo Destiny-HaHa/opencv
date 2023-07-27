@@ -38,7 +38,6 @@ jobs:
         run: |
           cd /home/ci/git_cache
           ls
-          echo "HOME=/home/ci" >> $GITHUB_ENV
       - name: Setup environment
         timeout-minutes: 60
         run: echo "TARGET_BRANCH_NAME=4.x" >> $GITHUB_ENV
