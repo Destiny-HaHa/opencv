@@ -18,7 +18,7 @@ env:
   TARGET_BRANCH_NAME: '4.x'
   HOME: '/home/ci'
   GIT_CACHE_DOCKER: '/home/ci/git_cache'
-  OPENCV_DOCKER_WORKDIR: '/home/ci/opencv'
+  OPENCV_DOCKER_WORKDIR: "${{ HOME }}/opencv"
   CCACHE_DIR: '/home/ci/.ccache'
 
 jobs:
@@ -37,6 +37,7 @@ jobs:
       - name: PR info
         timeout-minutes: 60
         run: |
+          echo "HOME: ${{ HOME }}"
           echo "PR Author: ${{ env.PR_AUTHOR }}"
           echo "PR Author fork: ${{ env.PR_AUTHOR_FORK }}"
           echo "Source branch name: ${{ env.SOURCE_BRANCH_NAME }}"
