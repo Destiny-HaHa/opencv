@@ -42,7 +42,6 @@ jobs:
         run: |
           cd /home
           sudo chmod o+w opencv
-          git init
           git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
       - name: Build OpenCV for Android SDK
         timeout-minutes: 120
