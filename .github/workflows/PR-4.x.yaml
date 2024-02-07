@@ -22,13 +22,21 @@ env:
 
 jobs:
   BuildAndTest:
-    runs-on: ubuntu-20.04
+    runs-on: opencv-cn-lin-x86-64-android
     defaults:
       run:
         shell: bash
     container:
-      image: quay.io/opencv-ci/opencv-androidsdk-28:20220721
+      image: quay.io/opencv-ci/opencv-androidsdk-30:20231201
+      volumes:
+        - /home/opencv-cn/git_cache:/home/ci/git_cache
+        - /home/opencv-cn/ci_cache/opencv:/home/ci/.ccache
+        - /home/opencv-cn/gradle_cache:/home/ci/.gradle
+        - /home/opencv-cn/binaries_cache:/home/ci/binaries_cache
     steps:
+      - name: Clean
+        timeout-minutes: 60
+        run: (test -d "${{ env.OPENCV_DOCKER_WORKDIR }}" && find "${{ env.OPENCV_DOCKER_WORKDIR }}" -mindepth 1 -delete) || /bin/true
       - name: Fetch opencv
         timeout-minutes: 60
         run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
@@ -39,6 +47,21 @@ jobs:
           cd /home/ci/build
           sed -i 's+https\\://services.gradle.org/distributions/gradle-@GRADLE_VERSION@-all.zip+file\\:/opt/gradle/gradle-@GRADLE_VERSION@-bin.zip+g' ${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/gradle-wrapper/gradle/wrapper/gradle-wrapper.properties.in
           python3 "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_sdk.py" --build_doc --config "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/ndk-18-api-level-21.config.py" --sdk_path "$ANDROID_HOME" --ndk_path "$ANDROID_NDK_HOME" /home/ci/build
+      - name: Build local repo from SDK
+        timeout-minutes: 60
+        run: cd /home/ci/build && "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_aar.sh" OpenCV-android-sdk
+      - name: Build AAR
+        timeout-minutes: 60
+        run: |
+          cd /home/ci/build
+          sed -i 's+https\\://services.gradle.org/distributions/gradle-7.6.3-bin.zip+file\\:/opt/gradle/gradle-7.6.3-bin.zip+g' ${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/aar-template/gradle/wrapper/gradle-wrapper.properties
+          python3 "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_java_shared_aar.py" --ndk_location="$ANDROID_NDK_HOME" --cmake_location=$(dirname $(dirname $(which cmake))) /home/ci/build/OpenCV-android-sdk
+      - name: Build Static AAR
+        timeout-minutes: 60
+        run: |
+          cd /home/ci/build
+          sed -i 's+https\\://services.gradle.org/distributions/gradle-7.6.3-bin.zip+file\\:/opt/gradle/gradle-7.6.3-bin.zip+g' ${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/aar-template/gradle/wrapper/gradle-wrapper.properties
+          python3 "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_static_aar.py" --ndk_location="$ANDROID_NDK_HOME" --cmake_location=$(dirname $(dirname $(which cmake))) /home/ci/build/OpenCV-android-sdk
       - name: Create Package
         timeout-minutes: 60
         run: cd /home/ci/build && zip -r -9 -y OpenCV4Android.zip OpenCV-android-sdk
