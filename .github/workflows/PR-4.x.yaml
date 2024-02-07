@@ -22,7 +22,7 @@ env:
 
 jobs:
   BuildAndTest:
-    runs-on: opencv-cn-lin-x86-64-android
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
