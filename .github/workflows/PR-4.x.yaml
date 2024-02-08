@@ -55,9 +55,10 @@ jobs:
         timeout-minutes: 60
         run: rm /home/ci/build/OpenCV4Android.zip
       - name: Create 7Zip Package
-        uses: edgarrc/action-7z@v1
+        uses: DuckSoft/create-7z-action@v1.0
         with:
-          args: 7z a -t7z -mx=9 OpenCV4Android.7z OpenCV-android-sdk
+          pathSource: /home/ci/build/OpenCV-android-sdk/
+          pathTarget: /home/ci/build/OpenCV4Android.7z
       - name: Release 7Zip Package
         timeout-minutes: 60
         uses: actions/upload-artifact@v3
