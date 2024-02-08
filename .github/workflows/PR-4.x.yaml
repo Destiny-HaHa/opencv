@@ -44,7 +44,7 @@ jobs:
           python3 "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_sdk.py" --no_kotlin --opencl --no_samples_build --no_ccache --shared --config "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/ndk-18-api-level-21.config.py" --sdk_path "$ANDROID_HOME" --ndk_path "$ANDROID_NDK_HOME" /home/ci/build
       - name: Create Zip Package
         timeout-minutes: 60
-        run: cd /home/ci/build && zip -r -9 -y OpenCV4Android.zip OpenCV-android-sdk
+        run: cd /home/ci/build && zip -r -S -9 OpenCV4Android.zip OpenCV-android-sdk
       - name: Release Zip Package
         timeout-minutes: 60
         uses: actions/upload-artifact@v3
@@ -57,7 +57,7 @@ jobs:
       - name: Create 7Zip Package
         uses: edgarrc/action-7z@v1
         with:
-          args: 7z a -t7z -mx=9 OpenCV4Android.7z /home/ci/build/OpenCV-android-sdk/
+          args: 7z a -t7z -mx=9 OpenCV4Android.7z OpenCV-android-sdk
       - name: Release 7Zip Package
         timeout-minutes: 60
         uses: actions/upload-artifact@v3
