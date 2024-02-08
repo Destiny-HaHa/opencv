@@ -42,9 +42,25 @@ jobs:
           cd /home/ci/build
           sed -i 's+https\\://services.gradle.org/distributions/gradle-@GRADLE_VERSION@-all.zip+file\\:/opt/gradle/gradle-@GRADLE_VERSION@-bin.zip+g' ${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/gradle-wrapper/gradle/wrapper/gradle-wrapper.properties.in
           python3 "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/build_sdk.py" --no_kotlin --opencl --no_samples_build --no_ccache --shared --config "${{ env.OPENCV_DOCKER_WORKDIR }}/platforms/android/ndk-18-api-level-21.config.py" --sdk_path "$ANDROID_HOME" --ndk_path "$ANDROID_NDK_HOME" /home/ci/build
-      - name: Release Package
+      - name: Create Zip Package
+        timeout-minutes: 60
+        run: cd /home/ci/build && zip -r -9 -y OpenCV4Android.zip OpenCV-android-sdk
+      - name: Release Zip Package
         timeout-minutes: 60
         uses: actions/upload-artifact@v3
         with:
-          name: OpenCV4AndroidSDK
-          path: /home/ci/build/
+          name: OpenCV4AndroidSDK.zip
+          path: /home/ci/build/OpenCV4Android.zip
+      - name: cleanPackage
+        timeout-minutes: 60
+        run: rm /home/ci/build/OpenCV4Android.zip
+      - name: Create 7Zip Package
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z a -t7z -mx=9 OpenCV4Android.7z /home/ci/build/OpenCV-android-sdk/
+      - name: Release 7Zip Package
+        timeout-minutes: 60
+        uses: actions/upload-artifact@v3
+        with:
+          name: OpenCV4AndroidSDK.7z
+          path: /home/ci/build/OpenCV4Android.7z
