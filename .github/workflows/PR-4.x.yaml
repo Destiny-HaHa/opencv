@@ -35,7 +35,7 @@ jobs:
         run: (test -d "${{ env.OPENCV_DOCKER_WORKDIR }}" && find "${{ env.OPENCV_DOCKER_WORKDIR }}" -mindepth 1 -delete) || /bin/true
       - name: Fetch opencv
         timeout-minutes: 60
-        run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/Destiny-HaHa/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
+        run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/opencv/opencv.git ${{ env.OPENCV_DOCKER_WORKDIR }}
       - name: Fetch opencv_contrib
         timeout-minutes: 60
         run: git clone --branch ${{ env.TARGET_BRANCH_NAME }} https://github.com/Destiny-HaHa/opencv_contrib.git ${{ env.OPENCV_CONTRIB_DOCKER_WORKDIR }}
